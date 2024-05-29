@@ -70,7 +70,7 @@ vector<string> tokenize(const string &infix) {
     return token;
 }
 
-vector<string> infixToPosyfix(const vector<string> &infixTokens) {
+vector<string> infixToPostfix(const vector<string> &infixTokens) {
     vector<string> postfix;
     stack<string> ops;
 
@@ -80,14 +80,14 @@ vector<string> infixToPosyfix(const vector<string> &infixTokens) {
         } else if (token == "(") {
             ops.push(token);
         } else if (token == ")") {
-            while (!ops.empty()) && ops.top != "(") {
+            while (!ops.empty() && ops.top() != "(") {
                 postfix.push_back(ops.top());
                 ops.pop();
             }
             ops.pop();
         } else {
             while (!ops.empty() && Precedence(ops.top()[0]) >= Precedence(token[0])) {
-                postfix.push_back(ops,top());
+                postfix.push_back(ops.top());
                 ops.pop();
             }
             ops.push(token);
@@ -105,7 +105,7 @@ vector<string> infixToPosyfix(const vector<string> &infixTokens) {
 int evaluatePostfix(const vector<string> &postfixTokens) {
     stack<int> evalStack;
 
-    for (const auto& token : postfixToken) {
+    for (const auto& token : postfixTokens) {
         if (isdigit(token[0]) || (token.size() > 1 && token[0] == '-' && isdigit(token[1]))) {
             evalStack.push(stoi(token));
         } else {
@@ -124,11 +124,11 @@ int evaluatePostfix(const vector<string> &postfixTokens) {
                 evalStack.push(val1 / val2);
             } else if (token == "%") {
                 evalStack.push(val1 % val2);
+            }
         }
     }
-}
- return evalStack.top();
 
+    return evalStack.top();
 }
 
 int main() {
@@ -136,7 +136,7 @@ int main() {
     getline(cin, infix);
 
     vector<string> token = tokenize(infix);
-    vector<string> postfix = infixToPostfix(tekon);
+    vector<string> postfix = infixToPostfix(token);
 
     int result = evaluatePostfix(postfix);
     cout << result << endl;
