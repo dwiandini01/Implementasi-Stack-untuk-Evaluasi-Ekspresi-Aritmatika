@@ -1,9 +1,10 @@
-#include <iostream>
+    #include <iostream>
     #include <vector>
     #include <string>
     using namespace std;
 
-    void strToInfix(string input){ 
+
+   void strToInfix(string input){
         vector<string> infix;
         string tmp;
         int len = input.length();
